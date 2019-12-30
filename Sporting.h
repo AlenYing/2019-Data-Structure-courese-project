@@ -9,22 +9,27 @@ Description: The male program's Id 1-m, while the femal's m+1--m+w
 #pragma once
 #ifndef SPORTING_H
 #define SPORTING_H
-enum PROGRAMTYPE {
-	THREE, FIVE
+enum TYPE 
+{
+	THREE = 3,
+	FIVE = 5
 };
 struct schoolNode {
 	int schoolKey;
 	string name;
+};
+struct schoolScore {
+	int key;
 	int score;
 };
 struct programNode {
 	int programKey;
-	string nane;
-	PROGRAMTYPE p;
+	string name;
+	int program_type;
 };
-struct program_school_score {
-	int p_key;
-	vector<schoolNode> p_s;
+struct score_list {
+	int program_key;
+	vector<schoolScore> program_score_list;
 };
 class Sporting {
 private:
@@ -32,12 +37,23 @@ private:
 	int n;
 	vector<schoolNode> school;
 	vector<programNode> program;
-	vector<program_school_score> list;
+	vector<score_list> list;
+	int* male_female(int);
+	int sortByScore(int);
+	static int findType(Sporting&, int);         //seacrch the program type(3 or 5) 
+	int score_3[3] = { 5,3,2 };
+	int score_5[5] = { 7,5,3,2,1 };
 public:
-	Sporting(int _m, int _n, vector<schoolNode> _school, vector<programNode> _program);
-	void initInput();   //input m and n and vector school and vector program
+	Sporting() {};
+	~Sporting() {};
+	void initInput(
+		int _m, 
+		int _n, 
+		vector<schoolNode> _school,
+		vector<programNode> _program);
 	void scoreInput();  //input score in list
-	bool searchPro();   //search info by program key
-	bool searchSch();   //search info by school key
+	void searchPro(int);   //search info by program key
+	void searchSch(int);   //search info by school key
+	void sort(int);
 };
 #endif // SPORINTG_H
