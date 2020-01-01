@@ -12,6 +12,7 @@ void Menu::display()
 {
 	for (int i = 0; i < n; i++)
 	{
-		cout<<i+1<<" ."<<function_list_[i];
+		if (i == n - 1) cout << i + 1 << " . " << function_list_[i] << endl;
+		else cout<<i+1<<" . "<<function_list_[i];
 	}
 }

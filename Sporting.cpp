@@ -1,4 +1,4 @@
-/*
+ï»¿/*
 class Sporting
 @para:m the num of school <= 20
 @para:n the num of program <=20
@@ -9,27 +9,31 @@ Description: The male program's Id 1-m, while the femal's m+1--m+w
 #include<iostream>
 #include<vector>
 #include<string>
+#include<fstream>
 using namespace std;
 #include"Sporting.h"
-void Sporting::initInput(int _m, int _n, vector<schoolNode> _school, vector<programNode> _program)
+void Sporting::initInput(ifstream& fin)
 {
-	cout << "??????????????????????????????????????§µ??????";
-	cin >> _m >> _n;
-	m = _m;
-	n = _n;
-	cout << "???????????§µ????????";
+	int female_num = 0;   //female program
+	int male_num = 0;   //male program
+	int school_num = 0;    //school
+	vector<schoolNode> _school;
+	vector<programNode> _program;
+	cout << "Please input the Max num of program(male,female),school";
+	cin >> male_num >> female_num>>school_num;
+	n = male_num + female_num;
+	m = school_num;
 	for (int i = 0; i < n; i++)
 	{
-		schoolNode temp;
-		cin >> temp.schoolKey >> temp.name;
-		_school.push_back(temp);
+		programNode temp;
+		fin >> temp.programKey >> temp.name >> temp.program_type;
+		_program.push_back(temp);
 	}
-	cout << "??????????????????????????";
 	for (int i = 0; i < m; i++)
 	{
-		programNode temp;
-		cin >> temp.programKey >> temp.name >> temp.program_type;
-		_program.push_back(temp);
+		schoolNode temp;
+		fin >> temp.schoolKey >> temp.name;
+		_school.push_back(temp);
 	}
 	school = _school;
 	program = _program;
@@ -46,9 +50,9 @@ int Sporting::findType(Sporting &mine,int _key)
 }
 void Sporting::scoreInput()
 {
-	cout << "?????????????§µ??(????????§µ?????§µ???)";
 	for (int i = 0; i < n; i++)
 	{
+		cout << "please input the program Id";
 		int num = 0;
 		int type;
 		score_list temp_score_list;
@@ -58,9 +62,10 @@ void Sporting::scoreInput()
 		if (type == (int)TYPE::THREE) num = 3;
 		else if (type == (int)TYPE::FIVE) num = 5;
 
-		cout << "??????" << num << "???§µ?????";
-		for (int j = 0; j < num; j++)
+		cout << "this program has " << num << " winning school"<<endl;
+		for (int j = 0; j < num;)
 		{
+			cout << "NO." << ++j <<": ";
 			schoolScore temp;
 			cin >> temp.key >> temp.score;
 			temp_score_list.program_score_list.push_back(temp);
@@ -74,7 +79,7 @@ void Sporting::searchPro(int _key)
 	{
 		if (i.programKey == _key)
 		{
-			cout << "????????????" << _key << " ??????" << i.name;
+			cout << "The program " << _key << ' ' << i.name;
 		}
 	}
 	for (auto school_score : list)
@@ -84,13 +89,13 @@ void Sporting::searchPro(int _key)
 			for (auto school_key : school_score.program_score_list)
 			{
 				int i = 0;
-				cout << "??" << ++i << "?????";
+				cout << "No." << ++i << "is :";
 				for (auto school_name : school)
 				{
 					if (school_key.key == school_name.schoolKey)
-						cout << school_key.key << school_name.name;
+						cout <<"The ID of the school: "<<school_key.key <<endl<<"The name of the school: "<< school_name.name<<endl;
 				}
-				cout << school_key.score;
+				cout <<"The score of the school: "<< school_key.score;
 			}
 		}
 	}
@@ -112,13 +117,17 @@ void Sporting::searchSch(int school_key)
 			int order = 1;
 			if (j.key == school_key)
 			{
-				cout << "???§µ???????";
+				for (auto schoolinfo : school)
+				{
+					if (j.key == schoolinfo.schoolKey)
+						cout << "The school:" << j.key <<' '<<schoolinfo.name<<':';
+				}
 				for (auto pro_name : program)
 				{
 					if (i.program_key == pro_name.programKey)
-						cout << pro_name.name<<"?§Ý??";
+						cout <<"In program:"<<pro_name.programKey<<' '<< pro_name.name;
 				}
-				cout << "??" << order << "??" << ", ?????" << j.score;
+				cout << "get " << order <<' '<< j.score;
 			}
 			order++;
 		}
@@ -132,33 +141,62 @@ void Sporting::searchSch(int school_key)
    2 -> by program key
    3 -> by score 
 */
-void Sporting::sort(int type)
+void Sporting::sort_(int sort_type)
 {
-	switch(type)
+	switch (sort_type)
 	{
-		case 1: 
+		case 1:
 		{
-			for (int i = 1; i <= 20; i++)
+			for (int i = 0; i < m; i++)
 			{
 				for (auto school_info : school)
 				{
 					if (school_info.schoolKey == i)
 					{
-						cout << school_info.schoolKey << ' ' << school_info.name;
+						cout << school_info.schoolKey << ' ' << school_info.name << endl;
 						break;
 					}
 				}
 			}
 		}break;
-		case 2:
+		case 11:
 		{
-			for (int i = 1; i <= 20; i++)
+			cout << "Please input the sex type( 0 is male, 1 is female)";
+			int sex_t;
+			cin >> sex_t;
+			int* ans = new int[m];
+			int* index = new int[m];
+			for (int i = 0; i < m; i++)
 			{
-				for (auto program_info : program)
+				ans[i] = male_female(i + 1, sex_t);
+				index[i] = ans[i];
+			}
+			for (int i = 0; i < m; i++)
+			{
+				for (int j = 0; j < m - 1; j++)
 				{
-					if (program_info.programKey == i)
+					if (ans[j] > ans[j + 1])
 					{
-						cout << program_info.programKey << ' ' << program_info.name;
+						int temp = ans[j];
+						ans[j] = ans[j + 1];
+						ans[j + 1] = temp;
+					}
+				}
+			}
+			for (int i = 0; i < m; i++)
+			{
+				for (int j = i; j < m; j++)
+				{
+					if (ans[i] == index[j])
+					{
+						for (auto k : school)
+						{
+							if (k.schoolKey == j+1)
+							{
+								cout << j+1 << ". " << k.name << endl;
+								break;
+							}
+						}
 						break;
 					}
 				}
@@ -167,9 +205,9 @@ void Sporting::sort(int type)
 	}
 }
 /*
- same as search by school_key except print
+  get every school's male and female score
 */
-int* Sporting::male_female(int school_key) 
+int Sporting::male_female(int school_key,int sex_type) 
 {
 	int result[2] = {0,0};     //male in 0,female in 1
 	for (auto i : list)
@@ -201,7 +239,7 @@ int* Sporting::male_female(int school_key)
 			order++;
 		}
 	}
-	return result;
+	return result[sex_type];
 }
 int Sporting::sortByScore(int school_key) 
 {

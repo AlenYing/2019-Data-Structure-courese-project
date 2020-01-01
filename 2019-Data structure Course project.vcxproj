@@ -159,6 +159,9 @@
     <ClInclude Include="menu.h" />
     <ClInclude Include="Sporting.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Text.csv" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
