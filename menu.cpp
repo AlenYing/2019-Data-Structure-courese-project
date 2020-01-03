@@ -12,7 +12,8 @@ void Menu::display()
 {
 	for (int i = 0; i < n; i++)
 	{
-		if (i == n - 1) cout << i + 1 << " . " << function_list_[i] << endl;
-		else cout<<i+1<<" . "<<function_list_[i];
+		if ((i+1)%3 == 0) cout << i+1 << ". " << function_list_[i] << endl;
+		else cout<<i+1<<". "<<function_list_[i]<<'\t';
 	}
+	cout << endl << "0. exit\n";
 }

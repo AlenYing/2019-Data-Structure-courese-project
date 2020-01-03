@@ -24,12 +24,18 @@
     <ClCompile Include="Sporting.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Polynomial.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="menu.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Sporting.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Polynomial.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

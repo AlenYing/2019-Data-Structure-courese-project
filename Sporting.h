@@ -38,9 +38,9 @@ private:
 	vector<schoolNode> school;
 	vector<programNode> program;
 	vector<score_list> list;
-	int male_female(int,int);
-	int sortByScore(int);
-	static int findType(Sporting&, int);         //seacrch the program type(3 or 5) 
+	int male_female(int,int) const;
+	int sortByScore(int)const;
+	static int findType(const Sporting&,const int);         //seacrch the program type(3 or 5) 
 	int score_3[3] = { 5,3,2 };
 	int score_5[5] = { 7,5,3,2,1 };
 public:
@@ -48,8 +48,8 @@ public:
 	~Sporting() {};
 	void initInput(ifstream&);
 	void scoreInput();  //input score in list
-	void searchPro(int);   //search info by program key
-	void searchSch(int);   //search info by school key
-	void sort_(int );
+	void searchPro(int) const;   //search info by program key
+	void searchSch(int) const;   //search info by school key
+	void sort_(int ) const;
 };
 #endif // SPORINTG_H
